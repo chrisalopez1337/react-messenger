@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
+// Children components
+import HeaderButtons from './HeaderButtons.jsx';
 
 export default function Header({ userData }) {
     // View change for buttons
@@ -20,6 +22,7 @@ export default function Header({ userData }) {
     return (
         <>
             <h1>React-Messenger</h1>
+            <HeaderButtons buttonView={buttonView} setModalView={setModalView} />
         </>
     );
 }
