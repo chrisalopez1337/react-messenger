@@ -4,6 +4,7 @@ import styled from 'styled-components';
 // Child components
 import Header from './Header.jsx';
 import SignUp from './SignUp.jsx';
+import LogIn from './LogIn.jsx';
 
 // Main container
 const Container = styled.div`
@@ -16,13 +17,15 @@ export default function App() {
     const [userData, setUserData] = useState(null);
 
     // Modal view handler
-    const [modalView, setModalView] = useState('sign-up');
+    const [modalView, setModalView] = useState('none');
 
     /* ____Conditional Rendering____ */
     const modalRender = modalView === 'none'
         ? (<></>)
         : modalView === 'sign-up'
         ? (<SignUp setModalView={setModalView} />)
+        : modalView === 'log-in'
+        ? (<LogIn setModalView={setModalView} setUserData={setUserData} />)
         : (<></>);
     return (
         <Container>

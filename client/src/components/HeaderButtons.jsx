@@ -39,7 +39,7 @@ export default function HeaderButtons({ buttonView, setModalView }) {
         : buttonView === 'logged-in'
         ? (
             <>
-                <Button onClick={() => {/* logout handler here */}}>Log Out</Button>
+                <Button onClick={() => {/* logout handler here */ setModalView('none')}}>Log Out</Button>
             </>
           )
         : <>Loading...</>;
