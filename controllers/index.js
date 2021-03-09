@@ -39,7 +39,7 @@ module.exports = {
             if (err) {
                 res.sendStatus(500);
             } else {
-                res.status(200).send(docs);
+                res.status(200).send(docs[0]);
             }
         });
     },
