@@ -42,5 +42,26 @@ module.exports = {
                 res.status(200).send(docs);
             }
         });
+    },
+
+    validateUser: (req, res) => {
+        const { username, password } = req.body;
+        // Get the stored hashed password.
+        models.getUser({ username }, (err, docs) => {
+            if (err) {
+                res.sendStatus(500);
+            } else {
+                const hash = docs[0].password;
+                // Compare the password
+                bcrypt.compare(password, hash, (err, result) => {
+                    if (err) {
+                        res.sendStatus(500);
+                    } else {
+                        const json = { validated: result };
+                        res.status(200).send(json);
+                    }
+                });
+            }
+        });
     }
 }
