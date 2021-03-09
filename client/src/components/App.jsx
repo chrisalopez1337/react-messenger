@@ -41,6 +41,20 @@ export default function App() {
         setModalView('none');
     }
 
+
+    // User mounting if they are already logged in
+    useEffect(() => {
+        // Retrieve localStorage data
+        const key = 'logged-in';
+        const storedUsername = getOne(key);
+        if (storedUsername && userData === null) {
+            // Fetch user data
+            axios.get(`/users/${storedUsername}`)
+                .then(({ data }) => logIn(data))
+                .catch(err => console.log(err));
+        }
+    }, []);
+
     /* ____Conditional Rendering____ */
     const modalRender = modalView === 'none'
         ? (<></>)
