@@ -6,6 +6,7 @@ const PORT = 3000;
 const bodyParser = require('body-parser');
 const path = require('path');
 // Routers
+const userRoutes = require('./userRoutes.js');
 
 // Serving react code
 app.use(express.static(path.join(__dirname, '../client/dist')));
@@ -14,9 +15,7 @@ app.use(express.static(path.join(__dirname, '../client/dist')));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// Test route 
-app.get('/test', (req, res) => {
-    res.sendStatus(200);
-});
+// Routing
+app.use('/users', userRoutes);
 
 app.listen(PORT, () => console.log(`React project listening @ ${PORT}`));
