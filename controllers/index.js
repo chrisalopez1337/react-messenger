@@ -2,6 +2,8 @@ const models = require('../models');
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 
+const isEmail = (str) => str.indexOf('@') > -1 ? true : false;
+
 module.exports = {
     createUser: (req, res) => {
         const { username, email, password } = req.body;
@@ -19,6 +21,25 @@ module.exports = {
                         res.sendStatus(201);
                     }
                 });
+            }
+        });
+    },
+
+    getUser: (req, res) => {
+        const { searchItem } = req.params;
+        // Find if its an email or not
+        let query;
+        if (isEmail(searchItem)) {
+            query = { email: searchItem };
+        } else {
+            query = { username: searchItem };
+        }
+        // Query the db.
+        models.getUser(query, (err, docs) => {
+            if (err) {
+                res.sendStatus(500);
+            } else {
+                res.status(200).send(docs);
             }
         });
     }
