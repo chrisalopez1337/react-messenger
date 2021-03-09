@@ -1,3 +1,7 @@
 const { Users } = require('../database');
 
-module.exports = {};
+module.exports = {
+    createUser: (data, cb) => {
+        Users.create(data, cb);
+    }
+};
