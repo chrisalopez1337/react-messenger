@@ -16,7 +16,12 @@ const Container = styled.div`
     }
 `;
 
-export default function Header({ userData }) {
+// Text styling
+const Logo = styled.h2`
+    color: #0356fc;
+`;
+
+export default function Header({ userData, setModalView }) {
     // View change for buttons
     const [buttonView, setButtonView] = useState('signed-out');
     // Event handler for button view
@@ -28,12 +33,9 @@ export default function Header({ userData }) {
         }
     }, [userData]);
 
-    // View change for the sign up and sign in modals
-    const [modalView, setModalView] = useState('none');
-
     return (
         <Container>
-            <h1>React-Messenger</h1>
+            <Logo>React-Messenger</Logo>
             <HeaderButtons buttonView={buttonView} setModalView={setModalView} />
         </Container>
     );
