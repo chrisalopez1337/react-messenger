@@ -27,7 +27,7 @@ const Button = styled.button`
     }
 `;
 
-export default function HeaderButtons({ buttonView, setModalView }) {
+export default function HeaderButtons({ buttonView, setModalView, logOut }) {
     // Condtional rendering
     const buttonRender = buttonView === 'signed-out'
         ? (
@@ -39,7 +39,7 @@ export default function HeaderButtons({ buttonView, setModalView }) {
         : buttonView === 'logged-in'
         ? (
             <>
-                <Button onClick={() => {/* logout handler here */ setModalView('none')}}>Log Out</Button>
+                <Button onClick={() => logOut()}>Log Out</Button>
             </>
           )
         : <>Loading...</>;

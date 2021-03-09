@@ -63,7 +63,7 @@ const SubmitButton = styled.button`
     font-size: 16px;
 `;
 
-export default function LogIn({ setModalView, setUserData }) {
+export default function LogIn({ setModalView, logIn }) {
     // Fields
     const [fields, setFields] = useState({ searchItem: '', password: ''});
     const { searchItem, password } = fields;
@@ -92,7 +92,7 @@ export default function LogIn({ setModalView, setUserData }) {
                             if (res.data.validated) {
                                 // user is validated, log them in
                                 /* localStorage handler here */
-                                setUserData(data);
+                                logIn(data);
                                 setModalView('none');
                             } else {
                                 // User is not valid

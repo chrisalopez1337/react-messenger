@@ -21,7 +21,7 @@ const Logo = styled.h2`
     color: #0356fc;
 `;
 
-export default function Header({ userData, setModalView }) {
+export default function Header({ userData, setModalView, logOut }) {
     // View change for buttons
     const [buttonView, setButtonView] = useState('signed-out');
     // Event handler for button view
@@ -36,7 +36,7 @@ export default function Header({ userData, setModalView }) {
     return (
         <Container>
             <Logo>React-Messenger</Logo>
-            <HeaderButtons buttonView={buttonView} setModalView={setModalView} />
+            <HeaderButtons buttonView={buttonView} setModalView={setModalView} logOut={logOut} />
         </Container>
     );
 }
