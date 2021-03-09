@@ -20,10 +20,15 @@ const FormContainer = styled.div`
     padding: 15px;
     min-width: 400px;
     min-height: 400px;
+    max-width: 400px;
+    @media (max-width: 440px) {
+        min-width: 250px;
+        margin-top: 15px;
+    }
 `;
 
 // Form
-const Form = styled.div`
+const Form = styled.form`
     display: flex;
     align-items: center;
     flex-direction: column;
@@ -31,7 +36,6 @@ const Form = styled.div`
 
 const Input = styled.input`
     background-color: transparent;
-    margin: 10px;
     padding: 7px;
     font-size: 16px;
     font-family: inherit;
@@ -42,6 +46,34 @@ const Input = styled.input`
 // Text styling
 const Title = styled.h3`
     color: #20293b; 
+`;
+
+const Error = styled.p`
+    color: red;
+`;
+
+// Buttons
+const SubmitButton = styled.button`
+    font-family: inherit;
+    padding: 7px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    background-color: #0356fc;
+    color: white;
+    border: 2px solid #0356fc;
+    border-radius: 7px;
+    font-size: 16px;
+`;
+
+const AlreadyRegisteredButton = styled.button`
+    margin-top: 4px;
+    marigin-bottom: 4px;
+    color: #0356fc;
+    font-family: inherit;
+    text-decoration: underline;
+    font-size: 16px;
+    border: transparent;
+    background-color: transparent;
 `;
 
 export default function SignUp({ setModalView }) {
@@ -94,7 +126,7 @@ export default function SignUp({ setModalView }) {
                     .catch(err => console.error(err));
             } else {
                 const message = 'Username must be 4-10 characters, and contain no special characters.';
-                handleMessage('usernameMessage', '');
+                handleMessage('usernameMessage', message);
                 validationHandler('username', false);
             }
         } else {
@@ -166,25 +198,55 @@ export default function SignUp({ setModalView }) {
     }, [verifyPassword]);
 
 
+    // Submit error messaging
+    const [submitError, setSubmitError] = useState('');
+
+    // Submit handler
+    function handleSubmit(e) {
+        e.preventDefault();
+        // Make sure all fields are valid
+        for (const key in validated) {
+            if (!validated[key]) {
+                setSubmitError(`Please check all fields, namely the ${key} field.`);
+                return;
+            }
+        }
+
+        // Create the user
+        const data = { username, password, email };
+        axios.post('/users/create', data)
+            .then(res => {
+                // User created, redirect them to the logged in view.
+                setModalView('log-in');
+            })
+            .catch(err => console.error(err));
+    }
+
+
     return (
         <Container>
             <FormContainer>
                 <Title>Create an account</Title>
-                <Form>
+                <Form onSubmit={handleSubmit}>
                     <label htmlFor="username">Username</label>
                     <Input type="text" name="username" value={username} onChange={handleFields}/>
+                    <Error>{usernameMessage}</Error>
 
                     <label htmlFor="email">Email</label>
                     <Input type="email" name="email" value={email} onChange={handleFields}/>
+                    <Error>{emailMessage}</Error>
 
                     <label htmlFor="password">Password</label>
                     <Input type="password" name="password" value={password} onChange={handleFields}/>
+                    <Error>{passwordMessage}</Error>
 
                     <label htmlFor="verifyPassword">Verify Password</label>
                     <Input type="password" name="verifyPassword" value={verifyPassword} onChange={handleFields}/>
+                    <Error>{vPasswordMessage}</Error>
 
-                    <button type="submit">Create account</button>
-                    <button>Already signed up?</button>
+                    <SubmitButton type="submit">Create account</SubmitButton>
+                    <AlreadyRegisteredButton>Already signed up?</AlreadyRegisteredButton>
+                    <Error>{submitError}</Error>
                 </Form>
             </FormContainer>
         </Container>
