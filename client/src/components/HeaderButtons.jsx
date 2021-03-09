@@ -1,6 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
+// Button container
+const Container = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row; 
+`;
+
 export default function HeaderButtons({ buttonView, setModalView }) {
     // Condtional rendering
     const buttonRender = buttonView === 'signed-out'
@@ -18,8 +26,8 @@ export default function HeaderButtons({ buttonView, setModalView }) {
           )
         : <>Loading...</>;
     return (
-        <>
+        <Container>
             {buttonRender}
-        </>
+        </Container>
     );
 };

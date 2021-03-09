@@ -4,6 +4,18 @@ import axios from 'axios';
 // Children components
 import HeaderButtons from './HeaderButtons.jsx';
 
+// Main container
+const Container = styled.div`
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: column;
+    @media (max-width: 410px) {
+        flex-direction: column;
+    }
+`;
+
 export default function Header({ userData }) {
     // View change for buttons
     const [buttonView, setButtonView] = useState('signed-out');
@@ -20,9 +32,9 @@ export default function Header({ userData }) {
     const [modalView, setModalView] = useState('none');
 
     return (
-        <>
+        <Container>
             <h1>React-Messenger</h1>
             <HeaderButtons buttonView={buttonView} setModalView={setModalView} />
-        </>
+        </Container>
     );
 }
