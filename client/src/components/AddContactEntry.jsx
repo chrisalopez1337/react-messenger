@@ -31,18 +31,54 @@ export default function AddContactEntry({ contactInfo, userData, setUserData }) 
                 // There is a match, check the type
                 if (singleContactInfo.friend_status === 'outbound') {
                     setButtonType('pending');
+                } else if (singleContactInfo.friend_status === 'inbound') {
+                    setButtonType('accept');
+                } else if (singleContactInfo.friend_status === 'friends') {
+                    setButtonType('friends');
                 }
             }
         }
-    }, []);
+    }, [userData]);
+
+    // Send friend request handler
+    function sendFriendRequest() {
+        const requestData = { userSending: userData.username, userRecieving: contactInfo.username, userSendingContacts: userData.contacts };
+        // Update user info
+        axios.post('/users/friend-request/send', requestData)
+            .then(res => {
+                // Fetch new user info and update
+                axios.get(`/users/${userData.username}`)
+                    .then(({ data }) => setUserData(data))
+                    .catch(err => console.log(err));
+            })
+            .catch(err => console.log(err));
+    }
+
+    // Accept friend request handler
+    function acceptFriendRequest() {
+        const requestData = { userAccepting: userData.username, userThatSent: contactInfo.username, userAcceptingContacts: userData.contacts};
+        // Update user info
+        axios.post('/users/friend-request/accept', requestData)
+            .then(res => {
+                // Now Fetch users new info and update
+                axios.get(`/users/${userData.username}`)
+                    .then(({ data }) => setUserData(data))
+                    .catch(err => console.log(err));
+            })
+            .catch(err => console.log(err));
+    }
 
     /* _____Conditional rendering for button_____ */
     const buttonRender = buttonType === 'add'
-        ? (<button>Add</button>)
+        ? (<button onClick={() => sendFriendRequest()}>Add</button>)
         : buttonType === 'yourself'
         ? (<button>Yourself</button>)
         : buttonType === 'pending'
         ? (<button>Pending</button>)
+        : buttonType === 'accept'
+        ? (<button onClick={() => acceptFriendRequest()}>Accept</button>)
+        : buttonType === 'friends'
+        ? (<button>Friends</button>)
         :(<></>);
     
     return (

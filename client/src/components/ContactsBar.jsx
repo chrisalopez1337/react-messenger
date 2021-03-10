@@ -22,7 +22,7 @@ export default function ContactsBar({ userData }) {
     return (
         <>
             <h1>Contacts</h1>
-            { contacts.map(contactInfo => <ContactEntry contactInfo={contactInfo} />)}
+            { contacts.map(contactInfo => <ContactEntry contactInfo={contactInfo} />) }
         </>
     );
 }

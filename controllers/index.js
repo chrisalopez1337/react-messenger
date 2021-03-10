@@ -111,8 +111,69 @@ module.exports = {
                 });
             }
         });
+    },
+
+    acceptFriendRequest: (req, res) => {
+        // When we accept a friend request we need to
+        // 1) Update the user accepting the friend requests contacts object to have friend_status = 'friends'
+        // 2) Uppdate the user that send the friend requests contacts object to have friend_status = 'friends'
+
+        const { userAccepting, userThatSent, userAcceptingContacts } = req.body;
+
+        function generateNewUserArray(usernameToUpdate, newStatus, oldArray) {
+            let newArray = [];
+            for (let i = 0; i < oldArray.length; i++) {
+                const contact = oldArray[i];
+                const { username } = contact;
+                if (username === usernameToUpdate) {
+                    const newContact = { username: usernameToUpdate, friend_status: newStatus, messages: [{}] };
+                    newArray.push(newContact);
+                } else {
+                    newArray.push(contact);
+                }
+            }
+            return newArray;
+        }
+        
+        // First update the user that is accepting the request, could refactor this to a function
+        const firstQuery = { username: userAccepting };
+        const newUsersAcceptingContacts = generateNewUserArray(userThatSent, 'friends', userAcceptingContacts);
+
+        models.updateUsersContacts(firstQuery, newUsersAcceptingContacts, (err, docs) => {
+            if (err) {
+                res.sendStatus(500);
+            } else {
+                // Second update the user that sent the friend request
+                
+                // Fetch the users contacts array
+                const secondQuery = { username: userThatSent };
+                models.getUser(secondQuery, (err, docs) => {
+                    if (err) {
+                        res.sendStatus(500);
+                    } else {
+                        // Update that user as well
+                        const userThatSentContacts = docs[0].contacts;
+                        const newUserThatSentContacts = generateNewUserArray(userAccepting, 'friends', userThatSentContacts);
+
+                        models.updateUsersContacts(secondQuery, newUserThatSentContacts, (err, docs) => {
+                            if (err) {
+                                res.sendStatus(500);
+                            } else {
+                                res.sendStatus(201);
+                            }
+                        }) 
+                    }
+                });
+            }
+        });
     }
 }
+
+
+
+
+
+
 
 
 
