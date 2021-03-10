@@ -20,7 +20,7 @@ export default function App() {
     const [userData, setUserData] = useState(null);
 
     // Modal view handler
-    const [modalView, setModalView] = useState('add-contact');
+    const [modalView, setModalView] = useState('none');
 
     // Log in handler
     function logIn(data) {

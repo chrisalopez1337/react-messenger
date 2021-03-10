@@ -46,6 +46,17 @@ const Row = styled.div`
     }
 `;
 
+const CloseButton = styled.button`
+    background-color: red;
+    color: white;
+    font-weight: bold;
+    font-size: 16px;
+    border: 1px solid red;
+    padding: 5px;
+    margin-left: 10px;
+    border-radius: 7px;
+`;
+
 export default function AddContact({ setModalView, setUserData, userData }) {
     // Field handler to search for a user in the DB.
     const [searchTerm, setSearchedTerm] = useState('');
@@ -75,6 +86,7 @@ export default function AddContact({ setModalView, setUserData, userData }) {
                 <Row>
                     <h2>Add Contact: </h2>
                     <SearchBar value={searchTerm} onChange={inputHandler}/>
+                    <CloseButton onClick={() => setModalView('none')}>Close</CloseButton>
                 </Row>
             {/* map over contacts */}
             {  contacts.length > 0 ? contacts.map(contactInfo => (<AddContactEntry contactInfo={contactInfo} setUserData={setUserData} userData={userData} /> )) : null}
