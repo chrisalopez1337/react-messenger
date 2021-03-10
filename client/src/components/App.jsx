@@ -65,7 +65,7 @@ export default function App() {
         : modalView === 'log-in'
         ? (<LogIn setModalView={setModalView} logIn={logIn} />)
         : modalView === 'add-contact'
-        ? (<AddContact setModalView={setModalView} setUserData={setUserData} />)
+        ? (<AddContact setModalView={setModalView} setUserData={setUserData} userData={userData}/>)
         : (<></>);
     return (
         <Container>

@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
+// Children component 
+import AddContactEntry from './AddContactEntry.jsx';
 
 // Main container to center module
 const Container = styled.div`
@@ -44,25 +46,28 @@ const Row = styled.div`
     }
 `;
 
-export default function AddContact({ setModalView, setUserData }) {
+export default function AddContact({ setModalView, setUserData, userData }) {
     // Field handler to search for a user in the DB.
     const [searchTerm, setSearchedTerm] = useState('');
 
-    // List of searched users
-    const [users, setUsers] = useState([]);
+    // Contacts the user searched for
+    const [contacts, setContacts] = useState([]);
 
     // Input handler
     function inputHandler(e) {
         const { target } = e;
         const { value } = target;
         setSearchedTerm(value);
-
+    }
+    
+    // Search handler
+    useEffect(() => {
         // Search for data in the DB
         axios.get(`/users/search/${searchTerm}`)
-            .then(({ data }) => setUsers(data))
+            .then(({ data }) => setContacts(data))
             .catch(err => console.error(err));
+    }, [searchTerm])
 
-    }
 
     return (
         <Container>
@@ -71,6 +76,8 @@ export default function AddContact({ setModalView, setUserData }) {
                     <h2>Add Contact: </h2>
                     <SearchBar value={searchTerm} onChange={inputHandler}/>
                 </Row>
+            {/* map over contacts */}
+            {  contacts.length > 0 ? contacts.map(contactInfo => (<AddContactEntry contactInfo={contactInfo} setUserData={setUserData} userData={userData} /> )) : null}
             </SearchWrapper>
         </Container>
     );
