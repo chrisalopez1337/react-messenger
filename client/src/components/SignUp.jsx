@@ -76,6 +76,24 @@ const AlreadyRegisteredButton = styled.button`
     background-color: transparent;
 `;
 
+const CloseButton = styled.button`
+    background-color: red;
+    color: white;
+    font-weight: bold;
+    font-size: 16px;
+    border: 1px solid red;
+    padding: 5px;
+    margin-left: 10px;
+    border-radius: 7px;
+`;
+
+const Row = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    flex-direction: row;
+`;
+
 export default function SignUp({ setModalView }) {
     // Fields for the form
     const [fields, setFields] = useState({ username: '', email: '', password: '', verifyPassword: ''});
@@ -226,7 +244,10 @@ export default function SignUp({ setModalView }) {
     return (
         <Container>
             <FormContainer>
-                <Title>Create an account</Title>
+                <Row>
+                    <Title>Create an account</Title>
+                    <CloseButton onClick={() => setModalView('none')}>Close</CloseButton>
+                </Row>
                 <Form onSubmit={handleSubmit}>
                     <label htmlFor="username">Username</label>
                     <Input type="text" name="username" value={username} onChange={handleFields}/>
