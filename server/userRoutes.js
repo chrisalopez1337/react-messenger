@@ -6,5 +6,6 @@ userRouter.post('/create', controllers.createUser);
 userRouter.get('/:searchItem', controllers.getUser);
 userRouter.post('/validate', controllers.validateUser);
 userRouter.get('/search/:search', controllers.searchUsers);
+userRouter.post('/friend-request/send', controllers.sendFriendRequest);
 
 module.exports = userRouter;

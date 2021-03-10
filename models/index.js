@@ -11,5 +11,9 @@ module.exports = {
 
     searchUsers: (query, cb) => {
         Users.find(query, cb);
+    },
+
+    sendFriendRequest: (query, newContacts, cb) => {
+        Users.findOneAndUpdate(query, { contacts: newContacts }, cb);
     }
 };

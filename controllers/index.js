@@ -75,5 +75,28 @@ module.exports = {
                 res.status(200).send(docs);
             }
         }); 
+    },
+
+    sendFriendRequest: (req, res) => {
+        const { username, addedUsername } = req.body;
+        const query = { username };
+        // Reconstruct the users contacts array
+        models.getUser(query, (err, docs) => {
+            if (err) {
+                res.sendStatus(500);
+            } else {
+                const contacts = docs[0].contacts;
+                // Add new person and request to contacts
+                const newContacts = [...contacts, { username: addedUsername, request: 'pending', messages: [{}] }];
+                // Update the info in the db
+                models.sendFriendRequest(query, newContacts, (err, docs) => {
+                    if (err) {
+                        res.sendStatus(500);
+                    } else {
+                        res.sendStatus(201);
+                    }
+                });
+            }
+        });
     }
 }
