@@ -63,6 +63,24 @@ const SubmitButton = styled.button`
     font-size: 16px;
 `;
 
+const CloseButton = styled.button`
+    background-color: red;
+    color: white;
+    font-weight: bold;
+    font-size: 16px;
+    border: 1px solid red;
+    padding: 5px;
+    margin-left: 10px;
+    border-radius: 7px;
+`;
+
+const Row = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    flex-direction: row;
+`;
+
 export default function LogIn({ setModalView, logIn }) {
     // Fields
     const [fields, setFields] = useState({ searchItem: '', password: ''});
@@ -110,7 +128,10 @@ export default function LogIn({ setModalView, logIn }) {
     return (
         <Container>
             <FormContainer>
-                <Title>Log In</Title>
+                <Row>
+                    <Title>Log In</Title>
+                    <CloseButton onClick={() => setModalView('none')}>Close</CloseButton>
+                </Row>
                 <Form onSubmit={handleSubmit}>
                     <label htmlFor="searchItem">Username or Email</label>
                     <Input type="text" name="searchItem" value={searchItem} onChange={handleFields}/>
