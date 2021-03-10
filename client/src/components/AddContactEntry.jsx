@@ -2,6 +2,50 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
 
+const EntryContainer = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: row;
+`;
+
+const EntryWrapper = styled.div`
+    border: 2px solid #883ef0;
+    border-radius: 7px;
+    padding: 4px;
+    margin: 4px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    min-width: 400px;
+`;
+
+const UsableButton = styled.div`
+    border: 2px solid #883ef0;
+    font-family: inherit;
+    font-size: 16px;
+    border-radius: 7px;
+    background-color: transparent;
+    padding: 4px;
+    transition-duration: 0.2s;
+    &:hover {
+        color: white;
+        background-color: #883ef0;
+    }
+`;
+
+const DeadButton = styled.div`
+    border: 2px solid gray;
+    font-family: inherit;
+    font-size: 16px;
+    border-radius: 7px;
+    background-color: transparent;
+    padding: 4px;
+    color: gray;
+`;
+
+
 export default function AddContactEntry({ contactInfo, userData, setUserData }) {
     // Store the button type to render
     const [buttonType, setButtonType] = useState(null);
@@ -70,21 +114,23 @@ export default function AddContactEntry({ contactInfo, userData, setUserData }) 
 
     /* _____Conditional rendering for button_____ */
     const buttonRender = buttonType === 'add'
-        ? (<button onClick={() => sendFriendRequest()}>Add</button>)
+        ? (<UsableButton onClick={() => sendFriendRequest()}>Add</UsableButton>)
         : buttonType === 'yourself'
-        ? (<button>Yourself</button>)
+        ? (<DeadButton>Yourself</DeadButton>)
         : buttonType === 'pending'
-        ? (<button>Pending</button>)
+        ? (<DeadButton>Pending</DeadButton>)
         : buttonType === 'accept'
-        ? (<button onClick={() => acceptFriendRequest()}>Accept</button>)
+        ? (<UsableButton onClick={() => acceptFriendRequest()}>Accept</UsableButton>)
         : buttonType === 'friends'
-        ? (<button>Friends</button>)
+        ? (<DeadButton>Friends</DeadButton>)
         :(<></>);
     
     return (
-        <>
-            <h3>{contactInfo.username}</h3>
-            {buttonRender}
-        </>
+        <EntryContainer>
+            <EntryWrapper>
+                <h3>{contactInfo.username}</h3>
+                {buttonRender}
+            </EntryWrapper>
+        </EntryContainer>
     );
 }
