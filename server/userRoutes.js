@@ -5,5 +5,6 @@ const controllers = require('../controllers'); // May have to seperate controlle
 userRouter.post('/create', controllers.createUser);
 userRouter.get('/:searchItem', controllers.getUser);
 userRouter.post('/validate', controllers.validateUser);
+userRouter.get('/search/:search', controllers.searchUsers);
 
 module.exports = userRouter;

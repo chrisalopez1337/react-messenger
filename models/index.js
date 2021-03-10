@@ -7,5 +7,9 @@ module.exports = {
 
     getUser: (query, cb) => {
         Users.find(query, cb);
+    },
+
+    searchUsers: (query, cb) => {
+        Users.find(query, cb);
     }
 };

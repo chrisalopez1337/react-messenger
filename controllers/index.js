@@ -63,5 +63,17 @@ module.exports = {
                 });
             }
         });
+    },
+
+    searchUsers: (req, res) => {
+        const { search } = req.params;
+        const query = { username: { $regex: search } };
+        models.searchUsers(query, (err, docs) => {
+            if (err) {
+                res.sendStatus(500);
+            } else {
+                res.status(200).send(docs);
+            }
+        }); 
     }
 }
