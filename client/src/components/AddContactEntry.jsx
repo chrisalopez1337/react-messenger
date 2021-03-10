@@ -10,33 +10,41 @@ export default function AddContactEntry({ contactInfo, userData, setUserData }) 
     useEffect(() => {
         const searchedUsersContacts = contactInfo.contacts;
         const loggedInUsername = userData.username;
-
-        // First find if the user exists in the contacts list already.
-        searchedUsersContacts.forEach(obj => {
-            const { username, request } = obj;
-            // If the username is in there contacts
-            if (username === loggedInUsername) {
-                // Check if they are already friends
-                if (request === 'confirmed') {
-                    // They are friends render a already friends button
-                    setButtonType('friends');
-                    return;
-                } else if (request === 'pending') {
-                    // The user already has a friend request sent to them
-                    setButtonType('pending');
-                    return;
+        // First check if the username searched is the one logged in
+        if (loggedInUsername === contactInfo.username) {
+            setButtonType('yourself');
+        } else {
+            // Check if that friend exists in their contacts
+            let match = null;
+            for (let i = 0; i < searchedUsersContacts.length; i++) {
+                const singleContact = searchedUsersContacts[i];
+                // Define relevant data
+                const singleContactUsername = singleContact.username;
+                const singleContactRequest = singleContact.request;
+                // If they do exist add them to match
+                if (singleContactUsername === contactInfo.username) {
+                    match = singleContactRequest;
                 }
             }
-        });
-        
-        // Else if the username is not in there contacts
-        setButtonType('add');
-    }, [userData]);
+            // See if we found a user or not
+            if (match) {
+                // We found a user
+                setButtonType(match);
+            } else {
+                setButtonType('add');
+            }
+        }
+
+    }, []);
 
     /* _____Conditional rendering for button_____ */
     const buttonRender = buttonType === 'add'
         ? (<button>Add</button>)
-        : (<></>);
+        : buttonType === 'yourself'
+        ? (<button>Yourself</button>)
+        : buttonType === 'pending'
+        ? (<button>Pending</button>)
+        :(<></>);
     
     return (
         <>

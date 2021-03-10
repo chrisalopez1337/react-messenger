@@ -78,25 +78,75 @@ module.exports = {
     },
 
     sendFriendRequest: (req, res) => {
-        const { username, addedUsername } = req.body;
-        const query = { username };
-        // Reconstruct the users contacts array
-        models.getUser(query, (err, docs) => {
+        // When we send a friend request we need to
+        // 1) Update the user sending the requests contacts object to have friend_status = 'outbound'
+        // 2) Update the user recieving the request contacts object to have friend_status = 'inbound'
+        const { userSending, userRecieving, userSendingContacts } = req.body;
+        
+        // First update the user that is sending the friend request
+        const firstQuery = { username: userSending };
+        const newUserSendingContacts = [...userSendingContacts, { username: userRecieving, friend_status: 'outbound', messages: [{}] }];
+        models.updateUsersContacts(firstQuery, newUserSendingContacts, (err, docs) => {
             if (err) {
                 res.sendStatus(500);
             } else {
-                const contacts = docs[0].contacts;
-                // Add new person and request to contacts
-                const newContacts = [...contacts, { username: addedUsername, request: 'pending', messages: [{}] }];
-                // Update the info in the db
-                models.sendFriendRequest(query, newContacts, (err, docs) => {
+                // Second update the user that is recieving the friend request
+
+                // Fetch the users data
+                const secondQuery = { username: userRecieving };
+                models.getUser(secondQuery, (err, docs) => {
                     if (err) {
                         res.sendStatus(500);
                     } else {
-                        res.sendStatus(201);
+                        const receivingUsersContacts = docs[0].contacts;
+                        const newReceivingUsersContacts = [...receivingUsersContacts, { username: userSending, friend_status: 'inbound', messages: [{}] }];
+                        models.updateUsersContacts(secondQuery, newReceivingUsersContacts, (err, docs) => {
+                            if (err) {
+                                res.sendStatus(500);
+                            } else {
+                                res.sendStatus(201);
+                            }
+                        });
                     }
                 });
             }
         });
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
