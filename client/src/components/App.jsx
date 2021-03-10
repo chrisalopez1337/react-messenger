@@ -7,6 +7,7 @@ import Header from './Header.jsx';
 import SignUp from './SignUp.jsx';
 import LogIn from './LogIn.jsx';
 import ContactsBar from './ContactsBar.jsx';
+import AddContact from './AddContact.jsx';
 
 // Main container
 const Container = styled.div`
@@ -19,7 +20,7 @@ export default function App() {
     const [userData, setUserData] = useState(null);
 
     // Modal view handler
-    const [modalView, setModalView] = useState('none');
+    const [modalView, setModalView] = useState('add-contact');
 
     // Log in handler
     function logIn(data) {
@@ -63,6 +64,8 @@ export default function App() {
         ? (<SignUp setModalView={setModalView} />)
         : modalView === 'log-in'
         ? (<LogIn setModalView={setModalView} logIn={logIn} />)
+        : modalView === 'add-contact'
+        ? (<AddContact setModalView={setModalView} setUserData={setUserData} />)
         : (<></>);
     return (
         <Container>
