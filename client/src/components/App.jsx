@@ -6,6 +6,7 @@ import { setOne, getOne, deleteOne } from 'local-js';
 import Header from './Header.jsx';
 import SignUp from './SignUp.jsx';
 import LogIn from './LogIn.jsx';
+import ContactsBar from './ContactsBar.jsx';
 
 // Main container
 const Container = styled.div`
@@ -67,6 +68,7 @@ export default function App() {
         <Container>
             <Header userData={userData} setModalView={setModalView} logOut={logOut} />
             {modalRender}
+            <ContactsBar setModalView={setModalView} userData={userData} /> 
         </Container>
     );
 };
