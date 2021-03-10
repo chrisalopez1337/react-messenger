@@ -8,33 +8,32 @@ export default function AddContactEntry({ contactInfo, userData, setUserData }) 
 
     // Mount button type on load or on user data change
     useEffect(() => {
-        const searchedUsersContacts = contactInfo.contacts;
-        const loggedInUsername = userData.username;
-        // First check if the username searched is the one logged in
-        if (loggedInUsername === contactInfo.username) {
+        const loggedInUsersContacts = userData.contacts;
+        const searchedUser = contactInfo.username;
+
+        // First check if the user being searched is the logged in user
+        if (userData.username === searchedUser) {
             setButtonType('yourself');
         } else {
-            // Check if that friend exists in their contacts
-            let match = null;
-            for (let i = 0; i < searchedUsersContacts.length; i++) {
-                const singleContact = searchedUsersContacts[i];
-                // Define relevant data
-                const singleContactUsername = singleContact.username;
-                const singleContactRequest = singleContact.request;
-                // If they do exist add them to match
-                if (singleContactUsername === contactInfo.username) {
-                    match = singleContactRequest;
+            // Check if the user is already in the contacts
+            let singleContactInfo = false;
+            for (let i = 0; i < loggedInUsersContacts.length; i++) {
+                const singleContact = loggedInUsersContacts[i];
+                if (singleContact.username === searchedUser) {
+                    // Found the user
+                    singleContactInfo = singleContact;
                 }
             }
-            // See if we found a user or not
-            if (match) {
-                // We found a user
-                setButtonType(match);
-            } else {
+            if (!singleContactInfo) {
+                // There isnt a match
                 setButtonType('add');
+            } else {
+                // There is a match, check the type
+                if (singleContactInfo.friend_status === 'outbound') {
+                    setButtonType('pending');
+                }
             }
         }
-
     }, []);
 
     /* _____Conditional rendering for button_____ */
