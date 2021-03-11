@@ -22,7 +22,7 @@ export default function App() {
     const [userData, setUserData] = useState(null);
 
     // Modal view handler
-    const [modalView, setModalView] = useState('contact-list');
+    const [modalView, setModalView] = useState('none');
 
     // Current person being messaged
     const [personBeingMessaged, setPersonBeingMessaged] = useState('');
@@ -100,7 +100,7 @@ export default function App() {
             <Header userData={userData} setModalView={setModalView} logOut={logOut} />
             {modalRender}
             <ContactsBar setModalView={setModalView} userData={userData}  /> 
-            <MessageView userData={userData} setModalView={setModalView} currentMessages={currentMessages} setUserData={setUserData} setCurrentMessages={setCurrentMessages} personBeingMessaged={personBeingMessaged} />
+            <MessageView userData={userData} setModalView={setModalView} currentMessages={currentMessages} setUserData={setUserData} setCurrentMessages={setCurrentMessages} personBeingMessaged={personBeingMessaged} setPersonBeingMessaged={setPersonBeingMessaged} />
         </Container>
     );
 };

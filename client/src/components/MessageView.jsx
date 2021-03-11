@@ -42,7 +42,28 @@ const Button = styled.button`
     }
 `;
 
-export default function MessageView({ userData, currentMessages, personBeingMessaged, setUserData }) {
+const CloseButton = styled.button`
+    background-color: red;
+    color: white;
+    font-weight: bold;
+    font-size: 16px;
+    border: 1px solid red;
+    padding: 5px;
+    margin-left: 10px;
+    border-radius: 7px;
+`;
+
+const Row = styled.div`
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: center;
+    @media (max-width: 415px) {
+        flex-direction: column;
+    }
+`;
+
+export default function MessageView({ userData, setPersonBeingMessaged, currentMessages, setCurrentMessages, personBeingMessaged, setUserData }) {
     // Check if the first message is empty
     if (!currentMessages[0]?.text) {
         currentMessages.shift();
@@ -59,7 +80,10 @@ export default function MessageView({ userData, currentMessages, personBeingMess
     return (
         <Container>
             <Wrapper>
-                <h3>{personBeingMessaged !== '' ? personBeingMessaged : 'Messages'}</h3>
+                <Row>
+                    <h3>{personBeingMessaged !== '' ? personBeingMessaged : 'Messages'}</h3>
+                    <CloseButton onClick={() => { setPersonBeingMessaged(''); setCurrentMessages([]) }}>Clear</CloseButton>
+                </Row>
                 {messageRender}
                 <SendMessage userData={userData} personBeingMessaged={personBeingMessaged} setUserData={setUserData} />
             </Wrapper>
