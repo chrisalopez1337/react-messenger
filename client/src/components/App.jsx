@@ -79,7 +79,7 @@ export default function App() {
             <Header userData={userData} setModalView={setModalView} logOut={logOut} />
             {modalRender}
             <ContactsBar setModalView={setModalView} userData={userData} /> 
-            <MessageView userData={userData} currentMessages={currentMessages} setUserData={setUserData} setCurrentMessages={setCurrentMessages} />
+            <MessageView userData={userData} setModalView={setModalView} currentMessages={currentMessages} setUserData={setUserData} setCurrentMessages={setCurrentMessages} />
         </Container>
     );
 };
