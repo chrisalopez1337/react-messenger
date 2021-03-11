@@ -85,7 +85,8 @@ export default function MessageView({ userData, setPersonBeingMessaged, currentM
                     <CloseButton onClick={() => { setPersonBeingMessaged(''); setCurrentMessages([]) }}>Clear</CloseButton>
                 </Row>
                 {messageRender}
-                <SendMessage userData={userData} personBeingMessaged={personBeingMessaged} setUserData={setUserData} />
+                { userData ? <SendMessage userData={userData} personBeingMessaged={personBeingMessaged} setUserData={setUserData} /> : null }
+                
             </Wrapper>
         </Container>
     )
