@@ -182,7 +182,6 @@ module.exports = {
                 const { username, messages, _id, friend_status } = oldContactsArray[i];
                 if (username === searchedUsername) {
                     const newMessages = [...messages, newMessage];
-                    console.log(newMessages)
                     const newContact = { _id, friend_status, username, messages: newMessages };
                     newContacts.push(newContact);
                 } else {
@@ -209,7 +208,6 @@ module.exports = {
                     } else {
                         const oldReceivingUsersContacts = docs[0].contacts;
                         const newReceivingUsersContacts = generateNewContactsArray(sendingUser, newMessage, oldReceivingUsersContacts);
-                        console.log(newReceivingUsersContacts);
 
                         // Update
                         models.updateUsersContacts(secondQuery, newReceivingUsersContacts, (err, docs) => {

@@ -9,6 +9,7 @@ import LogIn from './LogIn.jsx';
 import ContactsBar from './ContactsBar.jsx';
 import AddContact from './AddContact.jsx';
 import ContactDropdown from './ContactDropdown.jsx';
+import MessageView from './MessageView.jsx';
 
 // Main container
 const Container = styled.div`
@@ -78,6 +79,7 @@ export default function App() {
             <Header userData={userData} setModalView={setModalView} logOut={logOut} />
             {modalRender}
             <ContactsBar setModalView={setModalView} userData={userData} /> 
+            <MessageView userData={userData} currentMessages={currentMessages} setUserData={setUserData} setCurrentMessages={setCurrentMessages} />
         </Container>
     );
 };
