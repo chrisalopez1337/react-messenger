@@ -9,7 +9,7 @@ const userSchema = new mongoose.Schema({
     username: String,
     password: String,
     email: String,
-    contacts: [{ username: String, friend_status: String, messages: [{ time: Date, text: String }] }],
+    contacts: [{ username: String, friend_status: String, messages: [{ time: Date, text: String, from: String, to: String }] }],
 });
 
 const Users = mongoose.model('Users', userSchema);

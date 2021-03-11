@@ -166,6 +166,63 @@ module.exports = {
                 });
             }
         });
+    },
+
+    sendMessage: (req, res) => {
+        // What we need to do to add a user
+        // 1) Update the user sending the message messages array:obj
+        // 2) Update the user recieving the message messages array:obj
+        const { sendingUser, receivingUser, text, date, sendingUsersContacts } = req.body; 
+
+        // Function to generate new contacts array, I need to refactor the storage of this data because this is very innefeicent
+        const newMessage = { from: sendingUser, to: receivingUser, text, date };
+        function generateNewContactsArray(searchedUsername, newMessage, oldContactsArray) {
+            const newContacts = [];
+            for (let i = 0; i < oldContactsArray.length; i++) {
+                const { username, messages, _id, friend_status } = oldContactsArray[i];
+                if (username === searchedUsername) {
+                    const newMessages = [...messages, newMessage];
+                    console.log(newMessages)
+                    const newContact = { _id, friend_status, username, messages: newMessages };
+                    newContacts.push(newContact);
+                } else {
+                    newContacts.push(oldContactsArray[i]);
+                }
+            }
+            return newContacts;
+        }
+
+        // Update the first user
+        const newSendingUsersContacts = generateNewContactsArray(receivingUser, newMessage, sendingUsersContacts);
+        const firstQuery = { username: sendingUser };
+        models.updateUsersContacts(firstQuery, newSendingUsersContacts, (err, docs) => {
+            if (err) {
+                res.sendStatus(500);
+            } else {
+                // Update the second user
+                const secondQuery = { username: receivingUser };
+
+                // Fetch that users array
+                models.getUser(secondQuery, (err, docs) => {
+                    if (err) {
+                        res.sendStatus(500);
+                    } else {
+                        const oldReceivingUsersContacts = docs[0].contacts;
+                        const newReceivingUsersContacts = generateNewContactsArray(sendingUser, newMessage, oldReceivingUsersContacts);
+                        console.log(newReceivingUsersContacts);
+
+                        // Update
+                        models.updateUsersContacts(secondQuery, newReceivingUsersContacts, (err, docs) => {
+                            if (err) {
+                                res.sendStatus(500);
+                            } else {
+                                res.sendStatus(201);
+                            }
+                        })
+                    }
+                })
+            }
+        })
     }
 }
 

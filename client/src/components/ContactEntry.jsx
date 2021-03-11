@@ -35,13 +35,13 @@ const UsableButton = styled.div`
     }
 `;
 
-export default function ContactEntry({ contactInfo, setModalView }) {
-    const { username } = contactInfo;
+export default function ContactEntry({ contactInfo, setCurrentMessages }) {
+    const { username, messages } = contactInfo;
     return (
         <EntryContainer>
             <EntryWrapper>
                 <h3>{contactInfo.username}</h3>
-                <UsableButton onClick={() => console.log('hi')}>Message</UsableButton>
+                <UsableButton onClick={() => setCurrentMessages(messages)}>Message</UsableButton>
             </EntryWrapper>
         </EntryContainer>
     );

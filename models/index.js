@@ -15,5 +15,5 @@ module.exports = {
     
     updateUsersContacts: (query, newUsersContacts, cb) => {
         Users.findOneAndUpdate(query, { contacts: newUsersContacts }, cb);
-    }
+    },
 };

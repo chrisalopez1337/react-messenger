@@ -10,6 +10,8 @@ userRouter.get('/search/:search', controllers.searchUsers);
 // Friend request routes
 userRouter.post('/friend-request/send', controllers.sendFriendRequest);
 userRouter.post('/friend-request/accept', controllers.acceptFriendRequest);
+// Messagin routes
+userRouter.post('/messaging/send', controllers.sendMessage);
 
 
 module.exports = userRouter;

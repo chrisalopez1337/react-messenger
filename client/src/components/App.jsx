@@ -23,6 +23,9 @@ export default function App() {
     // Modal view handler
     const [modalView, setModalView] = useState('contact-list');
 
+    // Current messages
+    const [currentMessages, setCurrentMessages] = useState([]);
+
     // Log in handler
     function logIn(data) {
         const { username } = data;
@@ -68,7 +71,7 @@ export default function App() {
         : modalView === 'add-contact'
         ? (<AddContact setModalView={setModalView} setUserData={setUserData} userData={userData}/>)
         : modalView == 'contact-list'
-        ? (<ContactDropdown userData={userData} setModalView={setModalView} setUserData={setUserData}/>)
+        ? (<ContactDropdown userData={userData} setModalView={setModalView} setCurrentMessages={setCurrentMessages}/>)
         : (<></>);
     return (
         <Container>
