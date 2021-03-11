@@ -38,33 +38,22 @@ const Button = styled.button`
 `;
 
 export default function ContactsBar({ userData, setModalView }) {
-    // Hold a users contact
-    const [contacts, setContacts] = useState([]);
-
-    // Load contacts on mount, or on change
-    useEffect(() => {
-        if (userData) {
-            const userContacts = userData.contacts;
-            setContacts(userData.contacts);
-        } else {
-            setContacts([]);
-        }
-    }, [userData]);
-
-
     /* ___Conditional Rendering for button____ */
     const buttonRender = userData
-        ? (<Button onClick={() => setModalView('add-contact')}>Add Contacts</Button>)
+        ? (
+            <>
+            <Button onClick={() => setModalView('add-contact')}>Add Contacts</Button>
+            <Button onClick={() => setModalView('contact-list')}>Your contacts</Button>
+            </>
+          )
         : (<Button onClick={() => setModalView('sign-up')}>Create account to add contacts</Button>);
 
 
     return (
         <MainWrapper>
             <Row>
-                <h2>Contacts</h2>
                 {buttonRender}
             </Row>
-            { contacts.map(contactInfo => <ContactEntry contactInfo={contactInfo} />) }
         </MainWrapper>
     );
 }

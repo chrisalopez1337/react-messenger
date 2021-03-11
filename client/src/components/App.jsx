@@ -8,6 +8,7 @@ import SignUp from './SignUp.jsx';
 import LogIn from './LogIn.jsx';
 import ContactsBar from './ContactsBar.jsx';
 import AddContact from './AddContact.jsx';
+import ContactDropdown from './ContactDropdown.jsx';
 
 // Main container
 const Container = styled.div`
@@ -20,7 +21,7 @@ export default function App() {
     const [userData, setUserData] = useState(null);
 
     // Modal view handler
-    const [modalView, setModalView] = useState('none');
+    const [modalView, setModalView] = useState('contact-list');
 
     // Log in handler
     function logIn(data) {
@@ -57,7 +58,7 @@ export default function App() {
         }
     }, []);
 
-    /* ____Conditional Rendering____ */
+    /* _____Conditional Rendering____ */
     const modalRender = modalView === 'none'
         ? (<></>)
         : modalView === 'sign-up'
@@ -66,6 +67,8 @@ export default function App() {
         ? (<LogIn setModalView={setModalView} logIn={logIn} />)
         : modalView === 'add-contact'
         ? (<AddContact setModalView={setModalView} setUserData={setUserData} userData={userData}/>)
+        : modalView == 'contact-list'
+        ? (<ContactDropdown userData={userData} setModalView={setModalView} setUserData={setUserData}/>)
         : (<></>);
     return (
         <Container>
