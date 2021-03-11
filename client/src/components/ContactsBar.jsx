@@ -5,6 +5,13 @@ import styled from 'styled-components';
 import ContactEntry from './ContactEntry.jsx';
 
 
+const MainWrapper = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+`;
+
 const Row = styled.div`
     display: flex;
     align-items: center;
@@ -45,11 +52,19 @@ export default function ContactsBar({ userData, setModalView }) {
     }, [userData]);
 
 
+    /* ___Conditional Rendering for button____ */
+    const buttonRender = userData
+        ? (<Button onClick={() => setModalView('add-contact')}>Add Contacts</Button>)
+        : (<Button onClick={() => setModalView('sign-up')}>Create account to add contacts</Button>);
+
+
     return (
-        <Row>
-            <h2>Contacts</h2>
-            <Button onClick={() => setModalView('add-contact')}>Add Contacts</Button>
-            { /* contacts.map(contactInfo => <ContactEntry contactInfo={contactInfo} />) */ }
-        </Row>
+        <MainWrapper>
+            <Row>
+                <h2>Contacts</h2>
+                {buttonRender}
+            </Row>
+            { contacts.map(contactInfo => <ContactEntry contactInfo={contactInfo} />) }
+        </MainWrapper>
     );
 }
