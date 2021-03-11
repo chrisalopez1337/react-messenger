@@ -30,6 +30,24 @@ export default function App() {
     // Current messages
     const [currentMessages, setCurrentMessages] = useState([]);
 
+    // Function to update current messages after sending
+    function updateMessages() {
+        if (personBeingMessaged !== '' && userData) {
+            const allContacts = userData.contacts;
+            for (let i = 0; i < allContacts.length; i++) {
+                const { messages, username } = allContacts[i];
+                if (username === personBeingMessaged) {
+                    setCurrentMessages(messages);
+                    return;
+                }
+            }
+        }
+    }
+
+    useEffect(() => {
+        updateMessages();
+    }, [userData])
+
     // Log in handler
     function logIn(data) {
         const { username } = data;
