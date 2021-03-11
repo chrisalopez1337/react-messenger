@@ -24,6 +24,9 @@ export default function App() {
     // Modal view handler
     const [modalView, setModalView] = useState('contact-list');
 
+    // Current person being messaged
+    const [personBeingMessaged, setPersonBeingMessaged] = useState('');
+
     // Current messages
     const [currentMessages, setCurrentMessages] = useState([]);
 
@@ -72,14 +75,14 @@ export default function App() {
         : modalView === 'add-contact'
         ? (<AddContact setModalView={setModalView} setUserData={setUserData} userData={userData}/>)
         : modalView == 'contact-list'
-        ? (<ContactDropdown userData={userData} setModalView={setModalView} setCurrentMessages={setCurrentMessages}/>)
+        ? (<ContactDropdown userData={userData} setModalView={setModalView} setCurrentMessages={setCurrentMessages} setPersonBeingMessaged={setPersonBeingMessaged} />)
         : (<></>);
     return (
         <Container>
             <Header userData={userData} setModalView={setModalView} logOut={logOut} />
             {modalRender}
-            <ContactsBar setModalView={setModalView} userData={userData} /> 
-            <MessageView userData={userData} setModalView={setModalView} currentMessages={currentMessages} setUserData={setUserData} setCurrentMessages={setCurrentMessages} />
+            <ContactsBar setModalView={setModalView} userData={userData}  /> 
+            <MessageView userData={userData} setModalView={setModalView} currentMessages={currentMessages} setUserData={setUserData} setCurrentMessages={setCurrentMessages} personBeingMessaged={personBeingMessaged} />
         </Container>
     );
 };

@@ -3,7 +3,6 @@ import axios from 'axios';
 import styled from 'styled-components';
 // Children component
 import MessageEntry from './MessageEntry.jsx';
-import SendMessage from './SendMessage.jsx';
 
 const Container = styled.div`
     display: flex;
@@ -42,7 +41,7 @@ const Button = styled.button`
     }
 `;
 
-export default function MessageView({ userData, currentMessages, personBeingMessaged, setUserData }) {
+export default function MessageView({ userData, currentMessages, personBeingMessaged }) {
     // Check if the first message is empty
     if (!currentMessages[0]?.text) {
         currentMessages.shift();
@@ -52,7 +51,7 @@ export default function MessageView({ userData, currentMessages, personBeingMess
     const messageRender = userData
         ? (
             <>
-                { currentMessages.map(message => (<MessageEntry userData={userData} message={message} />))}
+                { currentMessages.map(message => (<MessageEntry userData={userData} message={message} personBeingMessaged={personBeingMessaged}/>))}
             </>
           )
         : <Button onClick={() => setModalView('sign-up')}>Create Account to message</Button>
@@ -61,7 +60,6 @@ export default function MessageView({ userData, currentMessages, personBeingMess
             <Wrapper>
                 <h3>{personBeingMessaged !== '' ? personBeingMessaged : 'Messages'}</h3>
                 {messageRender}
-                <SendMessage userData={userData} personBeingMessaged={personBeingMessaged} setUserData={setUserData} />
             </Wrapper>
         </Container>
     )

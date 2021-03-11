@@ -35,13 +35,16 @@ const UsableButton = styled.div`
     }
 `;
 
-export default function ContactEntry({ contactInfo, setCurrentMessages }) {
+export default function ContactEntry({ contactInfo, setCurrentMessages, setPersonBeingMessaged }) {
     const { username, messages } = contactInfo;
     return (
         <EntryContainer>
             <EntryWrapper>
                 <h3>{contactInfo.username}</h3>
-                <UsableButton onClick={() => setCurrentMessages(messages)}>Message</UsableButton>
+                <UsableButton onClick={() => {
+                    setCurrentMessages(messages);
+                    setPersonBeingMessaged(username);
+                }}>Message</UsableButton>
             </EntryWrapper>
         </EntryContainer>
     );

@@ -7,6 +7,7 @@ const MessageOuterWrapper = styled.div`
     align-items: center;
     justify-content: row;
     width: 95%;
+    margin-top: 7px;
 `;
 
 const MessageFromYou = styled.div`

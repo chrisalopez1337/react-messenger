@@ -57,7 +57,7 @@ const CloseButton = styled.button`
     border-radius: 7px;
 `;
 
-export default function ContactDropdown({ userData, setCurrentMessages, setModalView }) {
+export default function ContactDropdown({ userData, setCurrentMessages, setModalView, setPersonBeingMessaged }) {
  // Field handler to search for a user in the DB.
     const [searchTerm, setSearchedTerm] = useState('');
 
@@ -103,7 +103,7 @@ export default function ContactDropdown({ userData, setCurrentMessages, setModal
                     <CloseButton onClick={() => setModalView('none')}>Close</CloseButton>
                 </Row>
                 { /* map over contacts */ }
-                { contacts.map(contactInfo => (<ContactEntry contactInfo={contactInfo} userData={userData} setCurrentMessages={setCurrentMessages} />)) }
+                { contacts.map(contactInfo => (<ContactEntry contactInfo={contactInfo} userData={userData} setCurrentMessages={setCurrentMessages} setPersonBeingMessaged={setPersonBeingMessaged} />)) }
             </SearchWrapper>
         </Container>
     );
